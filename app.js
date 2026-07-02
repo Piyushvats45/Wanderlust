@@ -1,0 +1,41 @@
+const express = require('express')
+const app = express()
+const mongoose = require('mongoose')
+const Listing = require('./models/listing.js')
+// const path = require("path");
+// const methodOverride = require("method-override");
+
+const MONGO_URL = "mongodb://127.0.0.1:27017/airbnb";
+main().then(()=>{
+    console.log("Connected to DB")
+}).catch((err)=>{
+    console.log(err)
+})
+async function main(){
+    await mongoose.connect(MONGO_URL);
+}
+
+app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname, "views"));
+// app.use(express.urlencoded({ extended: true }));
+// app.use(methodOverride("_method"));
+
+app.get('/', (req,res)=>{
+    res.send("working..")
+})
+app.get('/testListing', async (req,res)=>{
+    let sampleListing = new Listing({
+        title: "My new villa",
+        description: "sea facing",
+        price: 1500,
+        location: "Goa",
+        country: "India"
+    })
+    await sampleListing.save()
+    console.log("sample was saved");
+    res.send("successful testing!")
+})
+
+app.listen(8080, ()=>{
+    console.log("server is listening at http://localhost:8080")
+})
