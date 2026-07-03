@@ -8,9 +8,18 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        type: String,
-        default: "https://search.brave.com/images?q=image%20of%20a%20house&source=imageCluster",
-        set: (v) => v == "" ? "https://search.brave.com/images?q=image%20of%20a%20house&source=imageCluster" : v,
+        filename: {
+            type: String,
+            default: "listingimage",
+        },
+        url: {
+            type: String,
+            default: "https://search.brave.com/images?q=image%20of%20a%20house&source=imageCluster",
+            set: (v) =>
+                v === ""
+                    ? "https://search.brave.com/images?q=image%20of%20a%20house&source=imageCluster"
+                    : v,
+        },
     },
     price: Number,
     location: String,
